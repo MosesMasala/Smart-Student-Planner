@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Smart Student Planner</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">📚</div>
+      <h2>Student Planner</h2>
+      <span>Academic Task Manager</span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="sidebar-label">Menu</p>
+      <a class="sidebar-link" href="/dashboard.html" data-page="dashboard">
+        <span class="sidebar-link-icon">🏠</span> Dashboard
+      </a>
+      <a class="sidebar-link" href="/courses.html" data-page="courses">
+        <span class="sidebar-link-icon">📖</span> Courses
+      </a>
+      <a class="sidebar-link" href="/assignments.html" data-page="assignments">
+        <span class="sidebar-link-icon">📝</span> Assignments
+      </a>
+      <a class="sidebar-link" href="/sessions.html" data-page="sessions">
+        <span class="sidebar-link-icon">🕐</span> Study Sessions
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar">M</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="sidebar-user-name">Student</div>
+          <div class="sidebar-user-role">Student</div>
+        </div>
+        <button class="sidebar-logout" id="logout-btn" title="Log out">⬡</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="menu-btn" id="menu-btn">☰</button>
+        <span class="topbar-title">Dashboard</span>
+      </div>
+      <div class="topbar-actions">
+        <a href="/dashboard.html#notifications">
+          <button class="notif-btn" title="Notifications">
+            🔔
+            <span class="notif-badge hidden" id="notif-badge">0</span>
+          </button>
+        </a>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- Welcome + date -->
+      <div class="page-header">
+        <div class="page-header-text">
+          <h1 id="welcome-msg">Good morning 👋</h1>
+          <p id="today-date"></p>
+        </div>
+        <a href="/assignments.html">
+          <button class="btn btn-primary">+ Add Assignment</button>
+        </a>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon indigo">📖</div>
+          <div>
+            <div class="stat-count" id="stat-courses">—</div>
+            <div class="stat-label">Courses</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber">📝</div>
+          <div>
+            <div class="stat-count" id="stat-assignments">—</div>
+            <div class="stat-label">Pending Assignments</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon emerald">🕐</div>
+          <div>
+            <div class="stat-count" id="stat-sessions">—</div>
+            <div class="stat-label">Upcoming Sessions</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon violet">🔔</div>
+          <div>
+            <div class="stat-count" id="stat-notifs">—</div>
+            <div class="stat-label">Unread Reminders</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Due soon + Upcoming sessions -->
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header">
+            <h2>⚠️ Due Soon</h2>
+            <a href="/assignments.html" style="font-size:0.8rem;color:var(--brand);">View all</a>
+          </div>
+          <div class="card-body">
+            <ul class="item-list" id="due-soon-list">
+              <li>
+                <div class="empty-state">
+                  <div class="empty-icon">✅</div>
+                  <div class="empty-title">You're all caught up!</div>
+                  <div class="empty-desc">No assignments due in the next 3 days.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>📅 Upcoming Sessions</h2>
+            <a href="/sessions.html" style="font-size:0.8rem;color:var(--brand);">View all</a>
+          </div>
+          <div class="card-body">
+            <ul class="item-list" id="upcoming-sessions-list">
+              <li>
+                <div class="empty-state">
+                  <div class="empty-icon">📅</div>
+                  <div class="empty-title">No sessions this week</div>
+                  <div class="empty-desc">Schedule a study session to stay on track.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notifications panel -->
+      <div class="card" id="notifications" style="margin-top:4px;">
+        <div class="card-header">
+          <h2>🔔 Reminders</h2>
+          <button class="btn btn-sm btn-ghost" id="mark-all-read-btn">Mark all read</button>
+        </div>
+        <div class="card-body" id="notif-list">
+          <div class="empty-state">
+            <div class="empty-icon">🔔</div>
+            <div class="empty-title">No reminders yet</div>
+            <div class="empty-desc">Reminders appear here when assignments are due soon or sessions are coming up.</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

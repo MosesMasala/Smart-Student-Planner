@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Courses — Smart Student Planner</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">📚</div>
+      <h2>Student Planner</h2>
+      <span>Academic Task Manager</span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="sidebar-label">Menu</p>
+      <a class="sidebar-link" href="/dashboard.html" data-page="dashboard"><span class="sidebar-link-icon">🏠</span> Dashboard</a>
+      <a class="sidebar-link" href="/courses.html"   data-page="courses"><span class="sidebar-link-icon">📖</span> Courses</a>
+      <a class="sidebar-link" href="/assignments.html" data-page="assignments"><span class="sidebar-link-icon">📝</span> Assignments</a>
+      <a class="sidebar-link" href="/sessions.html"  data-page="sessions"><span class="sidebar-link-icon">🕐</span> Study Sessions</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar">M</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="sidebar-user-name">Student</div>
+          <div class="sidebar-user-role">Student</div>
+        </div>
+        <button class="sidebar-logout" id="logout-btn" title="Log out">⬡</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="menu-btn" id="menu-btn">☰</button>
+        <span class="topbar-title">Courses</span>
+      </div>
+      <div class="topbar-actions">
+        <a href="/dashboard.html#notifications">
+          <button class="notif-btn" title="Notifications">
+            🔔 <span class="notif-badge hidden" id="notif-badge">0</span>
+          </button>
+        </a>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <div class="page-header-text">
+          <h1>Your Courses</h1>
+          <p>Add and manage the courses you are currently enrolled in.</p>
+        </div>
+        <button class="btn btn-primary" id="open-add-btn">+ Add Course</button>
+      </div>
+
+      <!-- Course grid -->
+      <div class="course-grid" id="course-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ── ADD / EDIT MODAL ── -->
+<div class="modal-backdrop" id="course-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Add Course</h3>
+      <button class="modal-close" onclick="closeModal('course-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="f-name">Course name <span style="color:var(--danger)">*</span></label>
+        <input class="form-control" type="text" id="f-name" placeholder="e.g. Data Structures and Algorithms" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="f-desc">Description <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+        <textarea class="form-control" id="f-desc" rows="3" placeholder="Brief description of the course…"></textarea>
+      </div>
+      <p class="form-error" id="modal-error"></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('course-modal')">Cancel</button>
+      <button class="btn btn-primary" id="modal-save-btn">Save Course</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── DELETE CONFIRM MODAL ── -->
+<div class="modal-backdrop" id="delete-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Delete Course</h3>
+      <button class="modal-close" onclick="closeModal('delete-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--text-muted);font-size:0.9rem;">
+        Are you sure you want to delete <strong id="delete-course-name"></strong>?
+        All assignments linked to this course will be unlinked.
+        <br /><br />This cannot be undone.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('delete-modal')">Cancel</button>
+      <button class="btn btn-danger" id="confirm-delete-btn">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/courses.js"></script>
+</body>
+</html>

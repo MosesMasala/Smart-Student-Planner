@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assignments — Smart Student Planner</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">📚</div>
+      <h2>Student Planner</h2>
+      <span>Academic Task Manager</span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="sidebar-label">Menu</p>
+      <a class="sidebar-link" href="/dashboard.html"   data-page="dashboard"><span class="sidebar-link-icon">🏠</span> Dashboard</a>
+      <a class="sidebar-link" href="/courses.html"     data-page="courses"><span class="sidebar-link-icon">📖</span> Courses</a>
+      <a class="sidebar-link" href="/assignments.html" data-page="assignments"><span class="sidebar-link-icon">📝</span> Assignments</a>
+      <a class="sidebar-link" href="/sessions.html"    data-page="sessions"><span class="sidebar-link-icon">🕐</span> Study Sessions</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar">M</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="sidebar-user-name">Student</div>
+          <div class="sidebar-user-role">Student</div>
+        </div>
+        <button class="sidebar-logout" id="logout-btn" title="Log out">⬡</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="menu-btn" id="menu-btn">☰</button>
+        <span class="topbar-title">Assignments</span>
+      </div>
+      <div class="topbar-actions">
+        <a href="/dashboard.html#notifications">
+          <button class="notif-btn" title="Notifications">
+            🔔 <span class="notif-badge hidden" id="notif-badge">0</span>
+          </button>
+        </a>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <div class="page-header-text">
+          <h1>Assignments</h1>
+          <p>Track deadlines, mark progress, and stay on top of your coursework.</p>
+        </div>
+        <button class="btn btn-primary" id="open-add-btn">+ Add Assignment</button>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="filter-bar">
+        <div class="filter-pills">
+          <button class="filter-pill active" data-status="all">All</button>
+          <button class="filter-pill" data-status="pending">Pending</button>
+          <button class="filter-pill" data-status="in_progress">In Progress</button>
+          <button class="filter-pill" data-status="completed">Completed</button>
+        </div>
+        <select class="filter-select" id="course-filter">
+          <option value="">All courses</option>
+        </select>
+        <select class="filter-select" id="priority-filter">
+          <option value="">All priorities</option>
+          <option value="high">High priority</option>
+          <option value="medium">Medium priority</option>
+          <option value="low">Low priority</option>
+        </select>
+      </div>
+
+      <!-- Assignment list -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Assignments</h2>
+          <span class="card-count" id="list-count">0</span>
+        </div>
+        <div class="card-body">
+          <ul class="item-list" id="assignment-list"></ul>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ── ADD / EDIT MODAL ── -->
+<div class="modal-backdrop" id="assignment-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Add Assignment</h3>
+      <button class="modal-close" onclick="closeModal('assignment-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="f-title">Title <span style="color:var(--danger)">*</span></label>
+        <input class="form-control" type="text" id="f-title" placeholder="e.g. Essay on sorting algorithms" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="f-course">Course</label>
+          <select class="form-control" id="f-course">
+            <option value="">No course</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-priority">Priority</label>
+          <select class="form-control" id="f-priority">
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="f-due">Due date</label>
+          <input class="form-control" type="date" id="f-due" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-status">Status</label>
+          <select class="form-control" id="f-status">
+            <option value="pending">Pending</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="f-desc">Description <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+        <textarea class="form-control" id="f-desc" rows="3" placeholder="Notes, requirements, instructions…"></textarea>
+      </div>
+      <p class="form-error" id="modal-error"></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('assignment-modal')">Cancel</button>
+      <button class="btn btn-primary" id="modal-save-btn">Save Assignment</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── DELETE CONFIRM ── -->
+<div class="modal-backdrop" id="delete-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Delete Assignment</h3>
+      <button class="modal-close" onclick="closeModal('delete-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--text-muted);font-size:0.9rem;">
+        Delete <strong id="delete-name"></strong>? This cannot be undone.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('delete-modal')">Cancel</button>
+      <button class="btn btn-danger" id="confirm-delete-btn">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/assignments.js"></script>
+</body>
+</html>
